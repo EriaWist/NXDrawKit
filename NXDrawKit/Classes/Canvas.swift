@@ -12,7 +12,7 @@ import UIKit
 @objc public protocol CanvasDelegate {
     @objc optional func canvas(_ canvas: Canvas, didUpdateDrawing drawing: Drawing, mergedImage image: UIImage?)
     @objc optional func canvas(_ canvas: Canvas, didSaveDrawing drawing: Drawing, mergedImage image: UIImage?)
-    
+    @objc optional func canvasCanUndoCallBack(_ canvas: Canvas)
     func brush() -> Brush?
 }
 
@@ -209,6 +209,7 @@ open class Canvas: UIView, UITableViewDelegate {
         
         self.mainImageView.image = UIGraphicsGetImageFromCurrentImageContext()
         self.session.append(self.currentDrawing())
+        self.delegate?.canvasCanUndoCallBack?(self)
         self.tempImageView.image = nil
         
         UIGraphicsEndImageContext()
