@@ -13,12 +13,16 @@ import UIKit
     @objc optional func canvas(_ canvas: Canvas, didUpdateDrawing drawing: Drawing, mergedImage image: UIImage?)
     @objc optional func canvas(_ canvas: Canvas, didSaveDrawing drawing: Drawing, mergedImage image: UIImage?)
     @objc optional func canvasCanUndoCallBack(_ canvas: Canvas)
+    @objc optional func canvasCanDrawingCallBack(_ canvas: Canvas)
+    @objc optional func canvasCantDrawingCallBack(_ canvas: Canvas)
     func brush() -> Brush?
 }
 
 
 open class Canvas: UIView, UITableViewDelegate {
     @objc open weak var delegate: CanvasDelegate?
+    
+    var canDrawing = true
     
     private var canvasId: String?
     
@@ -76,6 +80,11 @@ open class Canvas: UIView, UITableViewDelegate {
     }
     // MARK: - Override Methods
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard canDrawing else{
+            delegate?.canvasCantDrawingCallBack?(self)
+            return
+        }
+        delegate?.canvasCanDrawingCallBack?(self)
         self.saved = false
         self.pointMoved = false
         self.pointIndex = 0
@@ -91,7 +100,9 @@ open class Canvas: UIView, UITableViewDelegate {
          * http://code.tutsplus.com/tutorials/ios-sdk_freehand-drawing--mobile-13164
          *
          */
-
+        guard canDrawing else{
+            return
+        }
         let touch = touches.first
         let currentPoint = touch?.location(in: self)
         self.pointMoved = true
@@ -121,6 +132,9 @@ open class Canvas: UIView, UITableViewDelegate {
     }
     
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard canDrawing else{
+            return
+        }
         if !self.pointMoved {   // touchesBegan -> touchesEnded : just touched
             self.path.move(to: self.points[0])
             self.path.addLine(to: self.points[0])
