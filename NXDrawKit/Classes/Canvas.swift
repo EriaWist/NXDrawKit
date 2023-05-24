@@ -13,7 +13,7 @@ import UIKit
     @objc optional func canvas(_ canvas: Canvas, didUpdateDrawing drawing: Drawing, mergedImage image: UIImage?)
     @objc optional func canvas(_ canvas: Canvas, didSaveDrawing drawing: Drawing, mergedImage image: UIImage?)
     @objc optional func canvasCanUndoCallBack(_ canvas: Canvas)
-    @objc optional func canvasCanDrawingCallBack(_ canvas: Canvas)
+    @objc optional func canvasDrawingCallBack(_ canvas: Canvas)
     @objc optional func canvasCantDrawingCallBack(_ canvas: Canvas)
     func brush() -> Brush?
 }
@@ -22,7 +22,7 @@ import UIKit
 open class Canvas: UIView, UITableViewDelegate {
     @objc open weak var delegate: CanvasDelegate?
     
-    var canDrawing = true
+    open var canDrawing = true
     
     private var canvasId: String?
     
@@ -80,11 +80,12 @@ open class Canvas: UIView, UITableViewDelegate {
     }
     // MARK: - Override Methods
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(event?.allTouches)
         guard canDrawing else{
             delegate?.canvasCantDrawingCallBack?(self)
             return
         }
-        delegate?.canvasCanDrawingCallBack?(self)
+        delegate?.canvasDrawingCallBack?(self)
         self.saved = false
         self.pointMoved = false
         self.pointIndex = 0
