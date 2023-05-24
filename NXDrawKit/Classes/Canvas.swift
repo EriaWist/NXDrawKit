@@ -80,7 +80,6 @@ open class Canvas: UIView, UITableViewDelegate {
     }
     // MARK: - Override Methods
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print(event?.allTouches)
         guard canDrawing else{
             delegate?.canvasCantDrawingCallBack?(self)
             return
