@@ -80,7 +80,8 @@ open class Canvas: UIView, UITableViewDelegate {
     }
     // MARK: - Override Methods
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard canDrawing else{
+        guard canDrawing && event?.allTouches?.count == 1 else{
+            //確認是否開啟繪畫 與 判斷是否為單點觸控
             delegate?.canvasCantDrawingCallBack?(self)
             return
         }
@@ -100,7 +101,8 @@ open class Canvas: UIView, UITableViewDelegate {
          * http://code.tutsplus.com/tutorials/ios-sdk_freehand-drawing--mobile-13164
          *
          */
-        guard canDrawing else{
+        guard canDrawing && event?.allTouches?.count == 1 else{
+            //確認是否開啟繪畫 與 判斷是否為單點觸控
             return
         }
         let touch = touches.first
@@ -132,7 +134,8 @@ open class Canvas: UIView, UITableViewDelegate {
     }
     
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard canDrawing else{
+        guard canDrawing && event?.allTouches?.count == 1 else{
+            //確認是否開啟繪畫 與 判斷是否為單點觸控
             return
         }
         if !self.pointMoved {   // touchesBegan -> touchesEnded : just touched
