@@ -238,28 +238,9 @@ open class Canvas: UIView, UITableViewDelegate {
         if self.backgroundImageView.image != nil {
             let rect = self.centeredBackgroundImageRect()
             self.backgroundImageView.image?.draw(in: rect)            // draw background image
-            
-            self.mainImageView.image?.draw(in: self.bounds)               // draw stroke
-            if let subview = subviews.last{
-                let renderer = UIGraphicsImageRenderer(size: subview.bounds.size)
-                let stickerViewImage = renderer.image { ctx in
-                    subview.drawHierarchy(in: subview.bounds, afterScreenUpdates: true)
-                }
-            stickerViewImage.draw(in: CGRect(x:  subview.center.x, y:  subview.center.y, width:  subview.bounds.width, height:  subview.bounds.height))
-            }
-//            self.subviews.forEach({subview in
-//    //            if let stickerView = subview as? StickerView{
-//                    let renderer = UIGraphicsImageRenderer(size: subview.bounds.size)
-//                    let stickerViewImage = renderer.image { ctx in
-//                        subview.drawHierarchy(in: subview.bounds, afterScreenUpdates: true)
-//                    }
-//                stickerViewImage.draw(in: CGRect(x:  subview.center.x, y:  subview.center.y, width:  subview.bounds.width, height:  subview.bounds.height))
-////                    image.draw(in: rect)
-//    //            }
-////                subview.draw(rect)
-//            })
         }
         
+        self.mainImageView.image?.draw(in: self.bounds)               // draw stroke
         
         let mergedImage = UIGraphicsGetImageFromCurrentImageContext()   // merge
         
