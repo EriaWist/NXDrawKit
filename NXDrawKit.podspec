@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NXDrawKit'
-  s.version          = '0.8.1'
+  s.version          = 'eria1.0.0'
   s.summary          = 'NXDrawKit is a simple and easy but useful drawing kit for iPhone'
   s.description      = 'NXDrawKit is a set of classes designed to use drawable view easily.'
   s.swift_version    = '5.0'
